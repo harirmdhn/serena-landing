@@ -97,6 +97,61 @@ function initGallery() {
   });
 }
 
+// ===== Parallax reveal: small image -> full screen on scroll =====
+function initReveal() {
+  const section = document.getElementById("reveal");
+  const frame = document.getElementById("revealFrame");
+  const image = section ? section.querySelector(".reveal-image") : null;
+  const caption = document.getElementById("revealCaption");
+  const hint = document.getElementById("revealHint");
+  if (!section || !frame || !image) return;
+
+  // Respect reduced-motion: leave CSS fallback as-is.
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+    const rect = section.getBoundingClientRect();
+    const scrollable = section.offsetHeight - window.innerHeight;
+    // progress 0 -> 1 across the section's scroll range
+    const progress = clamp(-rect.top / scrollable, 0, 1);
+
+    // Ease the growth so it finishes a bit before the end, then holds full-screen.
+    const p = clamp(progress / 0.85, 0, 1);
+    const eased = p * (2 - p); // easeOutQuad
+
+    const width = lerp(42, 100, eased);   // vw
+    const height = lerp(46, 100, eased);  // vh
+    const radius = lerp(18, 0, eased);    // px
+    const imgScale = lerp(1.15, 1, eased);
+
+    frame.style.width = width + "vw";
+    frame.style.height = height + "vh";
+    frame.style.borderRadius = radius + "px";
+    image.style.transform = "scale(" + imgScale + ")";
+
+    // Caption fades in as the image fills the screen.
+    if (caption) caption.style.opacity = clamp((eased - 0.2) / 0.6, 0, 1).toFixed(3);
+    // Scroll hint fades out early.
+    if (hint) hint.style.opacity = clamp(1 - progress * 3, 0, 1).toFixed(3);
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
 // ===== Footer year =====
 function setYear() {
   const el = document.getElementById("year");
@@ -104,6 +159,7 @@ function setYear() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initReveal();
   renderResidences();
   initGallery();
   initForm();
