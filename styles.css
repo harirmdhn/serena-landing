@@ -218,6 +218,19 @@ a { color: inherit; text-decoration: none; }
   color: var(--muted);
 }
 
+/* ===== Location / map ===== */
+.location { padding: 5.5rem 0 0; }
+.location-lead {
+  max-width: 60ch; margin: 1.4rem auto 3rem;
+  text-align: center; color: var(--muted); font-size: 1.05rem;
+}
+.map-wrap {
+  width: 100%;
+  line-height: 0;
+  border-top: 1px solid var(--line);
+}
+.map-wrap iframe { display: block; width: 100%; }
+
 /* ===== Feature banner ===== */
 .feature-banner {
   padding: 5rem 0;
@@ -293,15 +306,16 @@ a { color: inherit; text-decoration: none; }
   margin-top: 3rem;
 }
 .amenity {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 2rem 1.6rem;
+  padding: 1.5rem 1rem;
   text-align: center;
-  transition: border-color 0.25s, transform 0.25s;
 }
-.amenity:hover { border-color: var(--sage); transform: translateY(-4px); }
-.amenity-icon { font-size: 2rem; display: block; margin-bottom: 0.8rem; }
+.amenity-icon {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--ink);
+  filter: grayscale(1) brightness(0);
+}
 .amenity h3 {
   font-family: var(--font-serif);
   font-size: 1.3rem; font-weight: 600; margin-bottom: 0.4rem;
