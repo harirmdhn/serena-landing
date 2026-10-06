@@ -105,7 +105,11 @@ function initHeroReveal() {
   const frame = document.getElementById("heroFrame");
   const image = section ? section.querySelector(".hero-image") : null;
   const grid = section ? section.querySelector(".hero-grid") : null;
+  const header = document.querySelector(".site-header");
   if (!section || !frame || !image || !grid) return;
+
+  // Hide the nav bar at first; it appears once the image reaches full size.
+  if (header) header.classList.add("is-hidden");
 
   // Skip the scroll animation when reduced motion is requested, or on small
   // screens where the CSS makes the hero a normal full-height section.
@@ -120,7 +124,9 @@ function initHeroReveal() {
   function reset() {
     frame.style.cssText = "";
     image.style.transform = "";
+    image.style.filter = "";
     grid.style.opacity = "";
+    if (header) header.classList.remove("is-hidden"); // normal header on mobile/reduced-motion
   }
 
   function update() {
@@ -140,14 +146,20 @@ function initHeroReveal() {
     const height = lerp(58, 100, eased);  // vh
     const radius = lerp(20, 0, eased);    // px
     const imgScale = lerp(1.15, 1, eased);
+    // Image gets darker as it grows so it reads as a moody dark backdrop.
+    const brightness = lerp(0.75, 0.45, eased);
 
     frame.style.width = width + "vw";
     frame.style.height = height + "vh";
     frame.style.borderRadius = radius + "px";
     image.style.transform = "scale(" + imgScale + ")";
+    image.style.filter = "brightness(" + brightness.toFixed(3) + ")";
 
     // Fade the copy + form in as the image approaches full screen.
     grid.style.opacity = clamp((eased - 0.45) / 0.4, 0, 1).toFixed(3);
+
+    // Reveal the nav bar only once the image is essentially full-screen.
+    if (header) header.classList.toggle("is-hidden", eased < 0.98);
   }
 
   function onScroll() {
