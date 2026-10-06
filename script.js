@@ -97,9 +97,10 @@ function initGallery() {
   });
 }
 
-// ===== Hero scroll reveal: image grows from a small frame to full screen
-// as you scroll down, and shrinks back as you scroll up. The copy + form fade
-// in once the image fills the screen. =====
+// ===== Hero parallax reveal =====
+// Scroll slowly: a small, dark video grows to full screen and brightens.
+// When it reaches full screen the form appears — and that's the end of the
+// parallax. Reversible on scroll up. The clip plays gently as an ambient loop.
 function initHeroReveal() {
   const section = document.getElementById("hero");
   const frame = document.getElementById("heroFrame");
@@ -111,6 +112,11 @@ function initHeroReveal() {
   // Hide the nav bar at first; it appears once the video reaches full size.
   if (header) header.classList.add("is-hidden");
 
+  // Play the clip softly as an ambient background (no scroll-scrubbing).
+  video.loop = true;
+  video.muted = true;
+  video.play().catch(() => {});
+
   // Skip the scroll animation when reduced motion is requested, or on small
   // screens where the CSS makes the hero a normal full-height section.
   const skip = () =>
@@ -120,34 +126,6 @@ function initHeroReveal() {
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   let ticking = false;
-  let videoReady = false;
-  let targetTime = 0;
-
-  // --- Scroll-scrubbing: drive video.currentTime from scroll like a timeline. ---
-  // The video must not autoplay; we seek it manually. Pause it defensively.
-  video.pause();
-  video.addEventListener("loadedmetadata", () => {
-    videoReady = isFinite(video.duration) && video.duration > 0;
-    seekLoop();
-  });
-  // Some browsers need a load nudge for seeking to work smoothly.
-  if (video.readyState >= 1) {
-    videoReady = isFinite(video.duration) && video.duration > 0;
-  }
-
-  // Smoothly ease the video's currentTime toward the scroll target so scrubbing
-  // feels fluid rather than jumping frame-to-frame.
-  function seekLoop() {
-    if (!videoReady) return;
-    const cur = video.currentTime || 0;
-    const diff = targetTime - cur;
-    if (Math.abs(diff) > 0.01) {
-      try { video.currentTime = cur + diff * 0.2; } catch (e) {}
-      requestAnimationFrame(seekLoop);
-    } else {
-      try { video.currentTime = targetTime; } catch (e) {}
-    }
-  }
 
   function reset() {
     frame.style.cssText = "";
@@ -155,9 +133,6 @@ function initHeroReveal() {
     video.style.filter = "";
     grid.style.opacity = "";
     if (header) header.classList.remove("is-hidden");
-    // On mobile / reduced motion, just let the clip play as an ambient loop.
-    video.loop = true;
-    video.play().catch(() => {});
   }
 
   function update() {
@@ -166,23 +141,16 @@ function initHeroReveal() {
 
     const rect = section.getBoundingClientRect();
     const scrollable = section.offsetHeight - window.innerHeight;
-    // progress 0 (top) -> 1 (fully scrolled through the hero) — reversible.
-    // This spans the full ~15s scroll timeframe and drives the video scrub.
+    // progress 0 (top) -> 1 (reveal complete) — the whole parallax. Reversible.
     const progress = clamp(-rect.top / scrollable, 0, 1);
-
-    // The frame grow + form/nav reveal happen quickly, within the first slice
-    // of the long scroll (REVEAL_FRACTION), then hold full-screen while the
-    // rest of the scroll scrubs the video.
-    const REVEAL_FRACTION = 0.07;
-    const r = clamp(progress / REVEAL_FRACTION, 0, 1);
-    const eased = r * (2 - r); // easeOutQuad
+    const eased = progress * (2 - progress); // easeOutQuad
 
     const width = lerp(55, 100, eased);   // vw
     const height = lerp(58, 100, eased);  // vh
     const radius = lerp(20, 0, eased);    // px
     const vidScale = lerp(1.08, 1, eased);
-    // Brighten as it grows: starts dark/moody, ends bright & clear at full size.
-    const brightness = lerp(0.5, 1.05, eased);
+    // Starts dark/moody, ends bright & clear at full size.
+    const brightness = lerp(0.45, 1.05, eased);
 
     frame.style.width = width + "vw";
     frame.style.height = height + "vh";
@@ -190,18 +158,11 @@ function initHeroReveal() {
     video.style.transform = "scale(" + vidScale + ")";
     video.style.filter = "brightness(" + brightness.toFixed(3) + ")";
 
-    // Scrub the video timeline across the FULL scroll range (interior -> facade),
-    // so a start-to-end scroll feels like scrubbing a ~15s timeline.
-    if (videoReady) {
-      targetTime = clamp(progress, 0, 0.999) * video.duration;
-      requestAnimationFrame(seekLoop);
-    }
-
-    // Fade the copy + form in as the frame approaches full screen.
-    grid.style.opacity = clamp((eased - 0.45) / 0.4, 0, 1).toFixed(3);
+    // Form (+ copy) appears as the frame reaches full screen.
+    grid.style.opacity = clamp((eased - 0.6) / 0.35, 0, 1).toFixed(3);
 
     // Reveal the nav bar only once the frame is essentially full-screen.
-    if (header) header.classList.toggle("is-hidden", eased < 0.98);
+    if (header) header.classList.toggle("is-hidden", eased < 0.97);
   }
 
   function onScroll() {
@@ -213,8 +174,6 @@ function initHeroReveal() {
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
-  // Kick a load so metadata/duration is available for scrubbing.
-  video.load();
   update();
 }
 

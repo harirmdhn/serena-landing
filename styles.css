@@ -113,9 +113,9 @@ a { color: inherit; text-decoration: none; }
    and shrinks back when you scroll up. The content/form sits on top. */
 .hero {
   position: relative;
-  /* Scroll distance that drives the reveal + video scrub.
-     Longer height = slower, more deliberate scrub. */
-  height: 2600vh;
+  /* Scroll distance for the reveal. Taller = slower reveal.
+     The whole parallax is just: small dark -> full bright + form. */
+  height: 350vh;
   background: #0a0908;        /* very dark backdrop for the reveal */
 }
 .hero-sticky { background: #0a0908; }
