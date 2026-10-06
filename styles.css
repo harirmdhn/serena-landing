@@ -166,9 +166,13 @@ a { color: inherit; text-decoration: none; }
   gap: 3rem;
   align-items: center;
   padding: 5rem 0;
-  /* content fades in as the image fills the screen (set by JS) */
+}
+/* Heading and form fade in SEPARATELY (heading first, then form) via JS. */
+.hero-copy,
+.lead-card {
   opacity: 0;
-  will-change: opacity;
+  transform: translateY(20px);
+  will-change: opacity, transform;
 }
 .hero-copy { color: #fff; }
 .hero-copy .eyebrow { color: #e4d2b4; }
@@ -187,7 +191,7 @@ a { color: inherit; text-decoration: none; }
   .hero { height: 100vh; }
   .hero-frame { width: 100vw; height: 100vh; border-radius: 0; transform: none; top: 0; left: 0; }
   .hero-video { transform: none; filter: brightness(0.7); }
-  .hero-grid { opacity: 1; }
+  .hero-copy, .lead-card { opacity: 1; transform: none; }
 }
 
 /* Lead card */
@@ -483,7 +487,8 @@ a { color: inherit; text-decoration: none; }
   .hero-sticky { position: relative; height: auto; min-height: 100vh; }
   .hero-frame { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0; transform: none; top: 0; left: 0; }
   .hero-video { transform: none; filter: brightness(0.7); }
-  .hero-grid { grid-template-columns: 1fr; opacity: 1; padding: 7rem 0 4rem; }
+  .hero-grid { grid-template-columns: 1fr; padding: 7rem 0 4rem; }
+  .hero-copy, .lead-card { opacity: 1; transform: none; }
   .stat-row { grid-template-columns: 1fr; gap: 1.8rem; }
   .stat-row li { border-left: none; }
   .gate { grid-template-columns: 1fr; }

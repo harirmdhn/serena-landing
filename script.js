@@ -106,8 +106,10 @@ function initHeroReveal() {
   const frame = document.getElementById("heroFrame");
   const video = document.getElementById("heroVideo");
   const grid = section ? section.querySelector(".hero-grid") : null;
+  const copy = section ? section.querySelector(".hero-copy") : null;
+  const card = section ? section.querySelector(".lead-card") : null;
   const header = document.querySelector(".site-header");
-  if (!section || !frame || !video || !grid) return;
+  if (!section || !frame || !video || !grid || !copy || !card) return;
 
   // Hide the nav bar at first; it appears once the video reaches full size.
   if (header) header.classList.add("is-hidden");
@@ -127,11 +129,17 @@ function initHeroReveal() {
   const lerp = (a, b, t) => a + (b - a) * t;
   let ticking = false;
 
+  function setReveal(el, t) {
+    el.style.opacity = t.toFixed(3);
+    el.style.transform = "translateY(" + lerp(20, 0, t).toFixed(1) + "px)";
+  }
+
   function reset() {
     frame.style.cssText = "";
     video.style.transform = "";
     video.style.filter = "";
-    grid.style.opacity = "";
+    copy.style.opacity = card.style.opacity = "1";
+    copy.style.transform = card.style.transform = "none";
     if (header) header.classList.remove("is-hidden");
   }
 
@@ -158,8 +166,12 @@ function initHeroReveal() {
     video.style.transform = "scale(" + vidScale + ")";
     video.style.filter = "brightness(" + brightness.toFixed(3) + ")";
 
-    // Form (+ copy) appears as the frame reaches full screen.
-    grid.style.opacity = clamp((eased - 0.6) / 0.35, 0, 1).toFixed(3);
+    // Staggered: the heading appears first (near the end of the parallax),
+    // then the form appears after it.
+    const copyIn = clamp((eased - 0.6) / 0.2, 0, 1);   // ~0.60 -> 0.80
+    const cardIn = clamp((eased - 0.82) / 0.16, 0, 1); // ~0.82 -> 0.98
+    setReveal(copy, copyIn);
+    setReveal(card, cardIn);
 
     // Reveal the nav bar only once the frame is essentially full-screen.
     if (header) header.classList.toggle("is-hidden", eased < 0.97);
