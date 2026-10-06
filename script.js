@@ -166,12 +166,16 @@ function initHeroReveal() {
 
     const rect = section.getBoundingClientRect();
     const scrollable = section.offsetHeight - window.innerHeight;
-    // progress 0 (top) -> 1 (fully scrolled through the hero) — reversible
+    // progress 0 (top) -> 1 (fully scrolled through the hero) — reversible.
+    // This spans the full ~15s scroll timeframe and drives the video scrub.
     const progress = clamp(-rect.top / scrollable, 0, 1);
 
-    // Grow the frame to full screen by ~70% of the scroll, then hold it.
-    const p = clamp(progress / 0.7, 0, 1);
-    const eased = p * (2 - p); // easeOutQuad
+    // The frame grow + form/nav reveal happen quickly, within the first slice
+    // of the long scroll (REVEAL_FRACTION), then hold full-screen while the
+    // rest of the scroll scrubs the video.
+    const REVEAL_FRACTION = 0.12;
+    const r = clamp(progress / REVEAL_FRACTION, 0, 1);
+    const eased = r * (2 - r); // easeOutQuad
 
     const width = lerp(55, 100, eased);   // vw
     const height = lerp(58, 100, eased);  // vh
@@ -186,16 +190,17 @@ function initHeroReveal() {
     video.style.transform = "scale(" + vidScale + ")";
     video.style.filter = "brightness(" + brightness.toFixed(3) + ")";
 
-    // Scrub the video timeline across the FULL scroll range (interior -> facade).
+    // Scrub the video timeline across the FULL scroll range (interior -> facade),
+    // so a start-to-end scroll feels like scrubbing a ~15s timeline.
     if (videoReady) {
       targetTime = clamp(progress, 0, 0.999) * video.duration;
       requestAnimationFrame(seekLoop);
     }
 
-    // Fade the copy + form in as the video approaches full screen.
+    // Fade the copy + form in as the frame approaches full screen.
     grid.style.opacity = clamp((eased - 0.45) / 0.4, 0, 1).toFixed(3);
 
-    // Reveal the nav bar only once the video is essentially full-screen.
+    // Reveal the nav bar only once the frame is essentially full-screen.
     if (header) header.classList.toggle("is-hidden", eased < 0.98);
   }
 

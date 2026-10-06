@@ -113,7 +113,9 @@ a { color: inherit; text-decoration: none; }
    and shrinks back when you scroll up. The content/form sits on top. */
 .hero {
   position: relative;
-  height: 220vh;              /* scroll distance that drives the reveal */
+  /* Scroll distance that drives the reveal + video scrub.
+     ~100vh per second of scrub -> 15s feel = ~1500vh of scroll. */
+  height: 1500vh;
   background: #0a0908;        /* very dark backdrop for the reveal */
 }
 .hero-sticky { background: #0a0908; }
