@@ -138,14 +138,14 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
   will-change: width, height, border-radius;
 }
-.hero-image {
+.hero-video {
   position: absolute;
   inset: 0;
-  background:
-    url("https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80")
-    center/cover no-repeat;
-  transform: scale(1.15);
-  filter: brightness(0.55);   /* keep the image dark/moody; JS can deepen it */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  filter: brightness(0.5);    /* starts dark/moody; JS brightens as it fills screen */
   will-change: transform, filter;
 }
 .hero-overlay {
@@ -184,7 +184,7 @@ a { color: inherit; text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .hero { height: 100vh; }
   .hero-frame { width: 100vw; height: 100vh; border-radius: 0; transform: none; top: 0; left: 0; }
-  .hero-image { transform: none; }
+  .hero-video { transform: none; filter: brightness(0.7); }
   .hero-grid { opacity: 1; }
 }
 
@@ -480,7 +480,7 @@ a { color: inherit; text-decoration: none; }
   .hero { height: auto; }
   .hero-sticky { position: relative; height: auto; min-height: 100vh; }
   .hero-frame { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 0; transform: none; top: 0; left: 0; }
-  .hero-image { transform: none; }
+  .hero-video { transform: none; filter: brightness(0.7); }
   .hero-grid { grid-template-columns: 1fr; opacity: 1; padding: 7rem 0 4rem; }
   .stat-row { grid-template-columns: 1fr; gap: 1.8rem; }
   .stat-row li { border-left: none; }

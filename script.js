@@ -103,12 +103,12 @@ function initGallery() {
 function initHeroReveal() {
   const section = document.getElementById("hero");
   const frame = document.getElementById("heroFrame");
-  const image = section ? section.querySelector(".hero-image") : null;
+  const video = document.getElementById("heroVideo");
   const grid = section ? section.querySelector(".hero-grid") : null;
   const header = document.querySelector(".site-header");
-  if (!section || !frame || !image || !grid) return;
+  if (!section || !frame || !video || !grid) return;
 
-  // Hide the nav bar at first; it appears once the image reaches full size.
+  // Hide the nav bar at first; it appears once the video reaches full size.
   if (header) header.classList.add("is-hidden");
 
   // Skip the scroll animation when reduced motion is requested, or on small
@@ -120,13 +120,44 @@ function initHeroReveal() {
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   let ticking = false;
+  let videoReady = false;
+  let targetTime = 0;
+
+  // --- Scroll-scrubbing: drive video.currentTime from scroll like a timeline. ---
+  // The video must not autoplay; we seek it manually. Pause it defensively.
+  video.pause();
+  video.addEventListener("loadedmetadata", () => {
+    videoReady = isFinite(video.duration) && video.duration > 0;
+    seekLoop();
+  });
+  // Some browsers need a load nudge for seeking to work smoothly.
+  if (video.readyState >= 1) {
+    videoReady = isFinite(video.duration) && video.duration > 0;
+  }
+
+  // Smoothly ease the video's currentTime toward the scroll target so scrubbing
+  // feels fluid rather than jumping frame-to-frame.
+  function seekLoop() {
+    if (!videoReady) return;
+    const cur = video.currentTime || 0;
+    const diff = targetTime - cur;
+    if (Math.abs(diff) > 0.01) {
+      try { video.currentTime = cur + diff * 0.2; } catch (e) {}
+      requestAnimationFrame(seekLoop);
+    } else {
+      try { video.currentTime = targetTime; } catch (e) {}
+    }
+  }
 
   function reset() {
     frame.style.cssText = "";
-    image.style.transform = "";
-    image.style.filter = "";
+    video.style.transform = "";
+    video.style.filter = "";
     grid.style.opacity = "";
-    if (header) header.classList.remove("is-hidden"); // normal header on mobile/reduced-motion
+    if (header) header.classList.remove("is-hidden");
+    // On mobile / reduced motion, just let the clip play as an ambient loop.
+    video.loop = true;
+    video.play().catch(() => {});
   }
 
   function update() {
@@ -138,27 +169,33 @@ function initHeroReveal() {
     // progress 0 (top) -> 1 (fully scrolled through the hero) — reversible
     const progress = clamp(-rect.top / scrollable, 0, 1);
 
-    // Grow the image to full screen by ~70% of the scroll, then hold it.
+    // Grow the frame to full screen by ~70% of the scroll, then hold it.
     const p = clamp(progress / 0.7, 0, 1);
     const eased = p * (2 - p); // easeOutQuad
 
     const width = lerp(55, 100, eased);   // vw
     const height = lerp(58, 100, eased);  // vh
     const radius = lerp(20, 0, eased);    // px
-    const imgScale = lerp(1.15, 1, eased);
-    // Image gets darker as it grows so it reads as a moody dark backdrop.
-    const brightness = lerp(0.75, 0.45, eased);
+    const vidScale = lerp(1.08, 1, eased);
+    // Brighten as it grows: starts dark/moody, ends bright & clear at full size.
+    const brightness = lerp(0.5, 1.05, eased);
 
     frame.style.width = width + "vw";
     frame.style.height = height + "vh";
     frame.style.borderRadius = radius + "px";
-    image.style.transform = "scale(" + imgScale + ")";
-    image.style.filter = "brightness(" + brightness.toFixed(3) + ")";
+    video.style.transform = "scale(" + vidScale + ")";
+    video.style.filter = "brightness(" + brightness.toFixed(3) + ")";
 
-    // Fade the copy + form in as the image approaches full screen.
+    // Scrub the video timeline across the FULL scroll range (interior -> facade).
+    if (videoReady) {
+      targetTime = clamp(progress, 0, 0.999) * video.duration;
+      requestAnimationFrame(seekLoop);
+    }
+
+    // Fade the copy + form in as the video approaches full screen.
     grid.style.opacity = clamp((eased - 0.45) / 0.4, 0, 1).toFixed(3);
 
-    // Reveal the nav bar only once the image is essentially full-screen.
+    // Reveal the nav bar only once the video is essentially full-screen.
     if (header) header.classList.toggle("is-hidden", eased < 0.98);
   }
 
@@ -171,6 +208,8 @@ function initHeroReveal() {
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
+  // Kick a load so metadata/duration is available for scrubbing.
+  video.load();
   update();
 }
 
