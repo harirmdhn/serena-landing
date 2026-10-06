@@ -173,7 +173,7 @@ function initHeroReveal() {
     // The frame grow + form/nav reveal happen quickly, within the first slice
     // of the long scroll (REVEAL_FRACTION), then hold full-screen while the
     // rest of the scroll scrubs the video.
-    const REVEAL_FRACTION = 0.12;
+    const REVEAL_FRACTION = 0.07;
     const r = clamp(progress / REVEAL_FRACTION, 0, 1);
     const eased = r * (2 - r); // easeOutQuad
 

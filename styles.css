@@ -114,8 +114,8 @@ a { color: inherit; text-decoration: none; }
 .hero {
   position: relative;
   /* Scroll distance that drives the reveal + video scrub.
-     ~100vh per second of scrub -> 15s feel = ~1500vh of scroll. */
-  height: 1500vh;
+     Longer height = slower, more deliberate scrub. */
+  height: 2600vh;
   background: #0a0908;        /* very dark backdrop for the reveal */
 }
 .hero-sticky { background: #0a0908; }
