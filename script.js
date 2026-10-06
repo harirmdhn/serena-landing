@@ -145,8 +145,8 @@ function initHeroReveal() {
     const progress = clamp(-rect.top / scrollable, 0, 1);
     const eased = progress * (2 - progress); // easeOutQuad
 
-    const width = lerp(55, 100, eased);   // vw
-    const height = lerp(58, 100, eased);  // vh
+    const width = lerp(15, 100, eased);   // vw
+    const height = lerp(18, 100, eased);  // vh
     const radius = lerp(20, 0, eased);    // px
     const vidScale = lerp(1.08, 1, eased);
     // Starts dark/moody, ends bright & clear at full size.
