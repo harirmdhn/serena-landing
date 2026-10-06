@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Serena — luxury residences inspired by Japanese Zen architecture. Timeless serenity, modern comfort." />
+  <title>Serena — Luxury Residences | Live in Serenity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <a href="#top" class="brand">SERENA</a>
+      <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#types">Residences</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#gate">The Gate</a>
+        <a href="#visit">Visit</a>
+      </nav>
+      <a href="#lead" class="btn btn-outline nav-cta">Enquire</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Summarecon Collection</p>
+        <h1>The Door Is Open.<br /><span>All It Needs Is You.</span></h1>
+        <p class="hero-sub">Fill in the form and let us guide you toward your new home.</p>
+      </div>
+
+      <!-- Lead form -->
+      <div class="lead-card" id="lead">
+        <h2 class="lead-title">Reserve Your Private Tour</h2>
+        <form id="leadForm" novalidate>
+          <div class="field">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@email.com" required />
+          </div>
+          <div class="field">
+            <label for="phone">Phone / WhatsApp</label>
+            <input type="tel" id="phone" name="phone" placeholder="+62 ..." required />
+          </div>
+          <div class="field">
+            <label for="interest">Residence of Interest</label>
+            <select id="interest" name="interest">
+              <option value="">Select a type</option>
+              <option>Hana A — 9x17 Signature HOEK</option>
+              <option>Hana A — 9x17 Signature</option>
+              <option>Hana B — 9x16 Premium</option>
+              <option>Hana C — 7x17 Deluxe</option>
+              <option>Hana D — 7x16 Deluxe</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-solid btn-block">Request a Call</button>
+          <p class="form-note" id="formNote" hidden></p>
+          <p class="form-privacy">We respect your privacy. No spam, ever.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== INTRO ===== -->
+  <section class="intro" id="about">
+    <div class="container">
+      <p class="eyebrow center">Serenity You Can Feel</p>
+      <h2 class="section-title center">In Every Quiet Moment</h2>
+      <p class="intro-text">
+        Nestled in a prime location with effortless access to the city's vibrant lifestyle
+        destinations is <strong>Serena</strong>. Inspired by Japanese Zen architecture, Serena embraces
+        warm natural timber, calm open courtyards, and the timeless beauty of simple proportions —
+        with wide sliding screens that invite abundant natural light and framed views of the garden,
+        where every detail is thoughtfully crafted to elevate daily comfort and tranquil living.
+      </p>
+      <ul class="stat-row">
+        <li><span class="stat-num">24</span><span class="stat-label">Hour Guarded Access</span></li>
+        <li><span class="stat-num">12</span><span class="stat-label">Residence Layouts</span></li>
+        <li><span class="stat-num">7</span><span class="stat-label">Minutes to City Center</span></li>
+        <li><span class="stat-num">100%</span><span class="stat-label">Freehold Ownership</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== FEATURE BANNER ===== -->
+  <section class="feature-banner">
+    <div class="container">
+      <p class="eyebrow center light">This Is Your Perfect Serene Home</p>
+      <h2 class="section-title center light">High Ceilings &amp; Wide Sliding Screens</h2>
+    </div>
+  </section>
+
+  <!-- ===== RESIDENCE TYPES / GALLERY ===== -->
+  <section class="types" id="types">
+    <div class="container">
+      <p class="eyebrow center">Living Luxury, In Harmony</p>
+      <h2 class="section-title center">Choose Your Residence</h2>
+      <p class="types-lead">
+        Designed with premium amenities, every space invites you to unwind, recharge, and embrace
+        a healthier, more balanced lifestyle anytime. Here, luxury meets nature — inspiring you to
+        live smarter and live better, every day.
+      </p>
+
+      <div class="type-grid" id="typeGrid"><!-- populated by JS --></div>
+    </div>
+  </section>
+
+  <!-- ===== GATE / ENTRANCE FEATURE ===== -->
+  <section class="gate" id="gate">
+    <div class="gate-image"></div>
+    <div class="gate-copy">
+      <p class="eyebrow light">Urban Living, Redefined</p>
+      <h2 class="section-title light">The Grand Entrance</h2>
+      <p>
+        The entrance gate of Serena stands as a bold symbol of calm and strength — a perfect fusion
+        of modern design and timeless simplicity. With its clean architectural lines and solid form,
+        it conveys both security and sophistication, setting the tone for what lies beyond.
+      </p>
+      <p>
+        With 24-hour guarded access and meticulous detailing, the gate welcomes residents into a
+        private enclave of style, comfort, and peace of mind — leaving a striking first impression
+        that embodies the spirit of simplicity, modernity, and vibrant living.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== AMENITIES ===== -->
+  <section class="amenities" id="amenities">
+    <div class="container">
+      <p class="eyebrow center">Premium Amenities</p>
+      <h2 class="section-title center">Everything You Need, Within Reach</h2>
+      <div class="amenity-grid">
+        <div class="amenity"><span class="amenity-icon">🌿</span><h3>Zen Courtyard</h3><p>Landscaped gardens and quiet reflection spaces.</p></div>
+        <div class="amenity"><span class="amenity-icon">🏊</span><h3>Infinity Pool</h3><p>A serene lap pool framed by timber decking.</p></div>
+        <div class="amenity"><span class="amenity-icon">🏋️</span><h3>Wellness Studio</h3><p>Fully equipped gym and yoga pavilion.</p></div>
+        <div class="amenity"><span class="amenity-icon">🛡️</span><h3>24h Security</h3><p>Gated enclave with round-the-clock guarding.</p></div>
+        <div class="amenity"><span class="amenity-icon">🚶</span><h3>Jogging Trail</h3><p>Tree-lined paths through the neighborhood.</p></div>
+        <div class="amenity"><span class="amenity-icon">☕</span><h3>Clubhouse</h3><p>A communal lounge and co-working space.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VISIT ===== -->
+  <section class="visit" id="visit">
+    <div class="container visit-inner">
+      <h2 class="section-title light">Visit Our Show Unit</h2>
+      <p class="visit-hours">08.30 — 20.00 WIB</p>
+      <p class="visit-addr">Serena Marketing Gallery · Jl. Serenity Boulevard, Serpong</p>
+      <a href="#lead" class="btn btn-solid">Book Your Visit</a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="brand">SERENA</span>
+      <p>&copy; <span id="year"></span> Serena Residences. A conceptual landing page.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
