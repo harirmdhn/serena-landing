@@ -12,24 +12,6 @@
 </head>
 <body>
 
-  <!-- ===== PARALLAX REVEAL INTRO ===== -->
-  <section class="reveal" id="reveal">
-    <div class="reveal-sticky">
-      <div class="reveal-frame" id="revealFrame">
-        <div class="reveal-image"></div>
-        <div class="reveal-caption" id="revealCaption">
-          <p class="reveal-eyebrow">Summarecon Collection</p>
-          <h1 class="reveal-title">SERENA</h1>
-          <p class="reveal-sub">Live in Serenity</p>
-        </div>
-      </div>
-      <div class="reveal-hint" id="revealHint">
-        <span>Scroll to enter</span>
-        <span class="reveal-arrow">↓</span>
-      </div>
-    </div>
-  </section>
-
   <!-- ===== HEADER ===== -->
   <header class="site-header" id="top">
     <div class="container header-inner">
@@ -45,18 +27,22 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-overlay"></div>
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Summarecon Collection</p>
-        <h1>The Door Is Open.<br /><span>All It Needs Is You.</span></h1>
-        <p class="hero-sub">Fill in the form and let us guide you toward your new home.</p>
+  <!-- ===== HERO (parallax reveal: image grows from small to full screen on scroll) ===== -->
+  <section class="hero" id="hero">
+    <div class="hero-sticky">
+      <div class="hero-frame" id="heroFrame">
+        <div class="hero-image"></div>
+        <div class="hero-overlay"></div>
       </div>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">Summarecon Collection</p>
+          <h1>The Door Is Open.<br /><span>All It Needs Is You.</span></h1>
+          <p class="hero-sub">Fill in the form and let us guide you toward your new home.</p>
+        </div>
 
-      <!-- Lead form -->
-      <div class="lead-card" id="lead">
+        <!-- Lead form -->
+        <div class="lead-card" id="lead">
         <h2 class="lead-title">Reserve Your Private Tour</h2>
         <form id="leadForm" novalidate>
           <div class="field">
@@ -86,6 +72,7 @@
           <p class="form-note" id="formNote" hidden></p>
           <p class="form-privacy">We respect your privacy. No spam, ever.</p>
         </form>
+        </div>
       </div>
     </div>
   </section>

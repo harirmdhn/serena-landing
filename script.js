@@ -97,36 +97,48 @@ function initGallery() {
   });
 }
 
-// ===== Parallax reveal: small image -> full screen on scroll =====
-function initReveal() {
-  const section = document.getElementById("reveal");
-  const frame = document.getElementById("revealFrame");
-  const image = section ? section.querySelector(".reveal-image") : null;
-  const caption = document.getElementById("revealCaption");
-  const hint = document.getElementById("revealHint");
-  if (!section || !frame || !image) return;
+// ===== Hero scroll reveal: image grows from a small frame to full screen
+// as you scroll down, and shrinks back as you scroll up. The copy + form fade
+// in once the image fills the screen. =====
+function initHeroReveal() {
+  const section = document.getElementById("hero");
+  const frame = document.getElementById("heroFrame");
+  const image = section ? section.querySelector(".hero-image") : null;
+  const grid = section ? section.querySelector(".hero-grid") : null;
+  if (!section || !frame || !image || !grid) return;
 
-  // Respect reduced-motion: leave CSS fallback as-is.
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  // Skip the scroll animation when reduced motion is requested, or on small
+  // screens where the CSS makes the hero a normal full-height section.
+  const skip = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    window.matchMedia("(max-width: 860px)").matches;
 
   const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   let ticking = false;
 
+  function reset() {
+    frame.style.cssText = "";
+    image.style.transform = "";
+    grid.style.opacity = "";
+  }
+
   function update() {
     ticking = false;
+    if (skip()) { reset(); return; }
+
     const rect = section.getBoundingClientRect();
     const scrollable = section.offsetHeight - window.innerHeight;
-    // progress 0 -> 1 across the section's scroll range
+    // progress 0 (top) -> 1 (fully scrolled through the hero) — reversible
     const progress = clamp(-rect.top / scrollable, 0, 1);
 
-    // Ease the growth so it finishes a bit before the end, then holds full-screen.
-    const p = clamp(progress / 0.85, 0, 1);
+    // Grow the image to full screen by ~70% of the scroll, then hold it.
+    const p = clamp(progress / 0.7, 0, 1);
     const eased = p * (2 - p); // easeOutQuad
 
-    const width = lerp(42, 100, eased);   // vw
-    const height = lerp(46, 100, eased);  // vh
-    const radius = lerp(18, 0, eased);    // px
+    const width = lerp(55, 100, eased);   // vw
+    const height = lerp(58, 100, eased);  // vh
+    const radius = lerp(20, 0, eased);    // px
     const imgScale = lerp(1.15, 1, eased);
 
     frame.style.width = width + "vw";
@@ -134,10 +146,8 @@ function initReveal() {
     frame.style.borderRadius = radius + "px";
     image.style.transform = "scale(" + imgScale + ")";
 
-    // Caption fades in as the image fills the screen.
-    if (caption) caption.style.opacity = clamp((eased - 0.2) / 0.6, 0, 1).toFixed(3);
-    // Scroll hint fades out early.
-    if (hint) hint.style.opacity = clamp(1 - progress * 3, 0, 1).toFixed(3);
+    // Fade the copy + form in as the image approaches full screen.
+    grid.style.opacity = clamp((eased - 0.45) / 0.4, 0, 1).toFixed(3);
   }
 
   function onScroll() {
@@ -159,7 +169,7 @@ function setYear() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initReveal();
+  initHeroReveal();
   renderResidences();
   initGallery();
   initForm();
