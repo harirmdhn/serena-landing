@@ -194,11 +194,14 @@ a { color: inherit; text-decoration: none; }
 .stat-row {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin-top: 3rem;
   text-align: center;
+  max-width: 900px;
+  margin-inline: auto;
 }
+.stat-row li { padding: 0 0.5rem; }
 .stat-row li { border-left: 1px solid var(--line); }
 .stat-row li:first-child { border-left: none; }
 .stat-num {
@@ -329,8 +332,8 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 860px) {
   .nav { display: none; }
   .hero-grid { grid-template-columns: 1fr; }
-  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
-  .stat-row li:nth-child(3) { border-left: none; }
+  .stat-row { grid-template-columns: 1fr; gap: 1.8rem; }
+  .stat-row li { border-left: none; }
   .gate { grid-template-columns: 1fr; }
   .gate-image { min-height: 320px; }
 }

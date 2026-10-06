@@ -9,15 +9,9 @@ const BASE_IMG =
 const RESIDENCES = [
   { name: "Hana A — 9x17", tag: "Signature HOEK", theme: "Sumi (Charcoal)", land: "153 m²", bed: 4, bath: 4, price: "from Rp 4.2 B" },
   { name: "Hana A — 9x17", tag: "Signature",      theme: "Shiro (White)",   land: "153 m²", bed: 4, bath: 3, price: "from Rp 3.9 B" },
-  { name: "Hana A — 9x17", tag: "Deluxe",         theme: "Hinoki (Timber)", land: "153 m²", bed: 3, bath: 3, price: "from Rp 3.6 B" },
-  { name: "Hana B — 9x16", tag: "Premium HOEK",   theme: "Sumi (Charcoal)", land: "144 m²", bed: 4, bath: 3, price: "from Rp 3.8 B" },
+  { name: "Hana B — 9x16", tag: "Premium HOEK",   theme: "Hinoki (Timber)", land: "144 m²", bed: 4, bath: 3, price: "from Rp 3.8 B" },
   { name: "Hana B — 9x16", tag: "Premium",        theme: "Shiro (White)",   land: "144 m²", bed: 3, bath: 3, price: "from Rp 3.5 B" },
-  { name: "Hana B — 9x16", tag: "Deluxe",         theme: "Hinoki (Timber)", land: "144 m²", bed: 3, bath: 2, price: "from Rp 3.3 B" },
-  { name: "Hana C — 7x17", tag: "Premium HOEK",   theme: "Sumi (Charcoal)", land: "119 m²", bed: 3, bath: 3, price: "from Rp 3.1 B" },
-  { name: "Hana C — 7x17", tag: "Premium",        theme: "Shiro (White)",   land: "119 m²", bed: 3, bath: 2, price: "from Rp 2.9 B" },
-  { name: "Hana C — 7x17", tag: "Deluxe",         theme: "Hinoki (Timber)", land: "119 m²", bed: 2, bath: 2, price: "from Rp 2.7 B" },
-  { name: "Hana D — 7x16", tag: "Premium HOEK",   theme: "Sumi (Charcoal)", land: "112 m²", bed: 3, bath: 2, price: "from Rp 2.8 B" },
-  { name: "Hana D — 7x16", tag: "Premium",        theme: "Shiro (White)",   land: "112 m²", bed: 3, bath: 2, price: "from Rp 2.6 B" },
+  { name: "Hana C — 7x17", tag: "Deluxe",         theme: "Sumi (Charcoal)", land: "119 m²", bed: 3, bath: 2, price: "from Rp 2.9 B" },
   { name: "Hana D — 7x16", tag: "Deluxe",         theme: "Hinoki (Timber)", land: "112 m²", bed: 2, bath: 2, price: "from Rp 2.4 B" },
 ];
 
