@@ -285,24 +285,30 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.9rem;
 }
 .facilities-sub { color: var(--muted); margin: 0.6rem 0 1.8rem; }
-.facility-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
-.facility {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--line);
+.facility-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem 1rem;
 }
-.facility:last-child { border-bottom: none; }
-.facility-icon {
-  font-size: 1.5rem;
-  width: 2.4rem;
+.facility {
+  padding: 1.5rem 0.6rem;
   text-align: center;
-  flex-shrink: 0;
+}
+.facility-icon {
+  font-size: 2.4rem;
+  display: block;
+  margin-bottom: 0.8rem;
   filter: grayscale(1) brightness(0);
 }
-.facility-name { font-size: 1rem; font-weight: 400; }
-.facility-name em { font-style: normal; color: var(--muted); font-size: 0.88rem; }
+.facility-name {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.facility-name em { display: block; font-style: normal; color: var(--muted); font-size: 0.82rem; font-family: var(--font-sans); font-weight: 400; margin-top: 0.15rem; }
 
 /* ===== Residence types ===== */
 .types { padding: 5.5rem 0; background: var(--bg-alt); }
@@ -416,4 +422,5 @@ a { color: inherit; text-decoration: none; }
   .gate { grid-template-columns: 1fr; }
   .gate-image { min-height: 320px; }
   .showcase-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .facility-list { grid-template-columns: repeat(2, 1fr); }
 }
